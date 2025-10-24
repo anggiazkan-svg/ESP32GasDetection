@@ -1,108 +1,181 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Monitoring Gas</title>
-
-  <!-- Styling -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Monitoring Gas by KomposVolt</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.css">
   <style>
     body {
-      background-color: #121212;
-      color: white;
-      font-family: "Poppins", sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0b1220;
+      color: #f1f5f9;
+      padding: 24px;
+      line-height: 1.5;
       text-align: center;
-      margin: 0;
-      padding: 0;
     }
 
-    /* Header */
+    /* ===== HEADER LOGO ===== */
     .header {
-      padding: 40px 20px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 24px;
     }
 
     .header img {
-      width: 280px; /* Ukuran proporsional logo */
+      width: 260px;
       height: auto;
+      margin-bottom: 12px;
     }
 
     h1 {
-      margin-top: 20px;
-      font-size: 28px;
+      font-size: 1.75rem;
+      margin-bottom: 16px;
+      color: #38bdf8;
+    }
+
+    /* ===== KARTU DATA ===== */
+    .card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 12px auto;
+      max-width: 400px;
+      text-align: left;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: 6px;
+    }
+
+    .status {
       font-weight: 600;
-      letter-spacing: 1px;
     }
 
-    hr {
-      width: 60%;
-      border: 0.5px solid #444;
-      margin: 20px auto;
+    .status.safe {
+      color: #22c55e;
     }
 
-    /* Kontainer data dari Firebase */
-    #dataContainer {
-      margin-top: 30px;
-      font-size: 20px;
+    .status.warn {
+      color: #facc15;
     }
 
-    @media (max-width: 600px) {
-      .header img {
-        width: 200px;
-      }
-      h1 {
-        font-size: 22px;
-      }
+    .status.danger {
+      color: #ef4444;
+    }
+
+    /* ===== FOOTER INSTAGRAM ===== */
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #94a3b8;
+    }
+
+    .footer a {
+      color: #38bdf8;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s ease;
+    }
+
+    .footer a:hover {
+      color: #22d3ee;
+    }
+
+    .footer img {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
     }
   </style>
 </head>
 
 <body>
-  <!-- Header Logo + Judul -->
+  <!-- ===== HEADER ===== -->
   <div class="header">
-    <img src="logo.png" alt="KomposVolt Logo" />
-    <h1>Dashboard Monitoring Gas</h1>
+    <img src="logo.png" alt="Logo KomposVolt">
+    <h1>Dashboard Deteksi Gas by Kompos Volt</h1>
   </div>
-  <hr>
 
-  <!-- Kontainer Data -->
-  <div id="dataContainer">Memuat data sensor...</div>
+  <!-- ===== KONTEN DATA ===== -->
+  <div class="card">
+    <h2>CH₄ (Metana): <span id="ch4Val">— ppm</span></h2>
+    <p>Status: <span id="ch4Status" class="status">—</span></p>
+  </div>
 
-  <!-- Firebase SDK -->
+  <div class="card">
+    <h2>CO₂: <span id="co2Val">— ppm</span></h2>
+    <p>Status: <span id="co2Status" class="status">—</span></p>
+  </div>
+
+  <div class="card">
+    <h2>NH₃ (Amonia): <span id="nh3Val">— ppm</span></h2>
+    <p>Status: <span id="nh3Status" class="status">—</span></p>
+  </div>
+
+  <!-- ===== FOOTER DENGAN INSTAGRAM ===== -->
+  <div class="footer">
+    <p>
+      Follow us
+      <a href="https://instagram.com/komposvolt" target="_blank">
+        <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
+        @komposvolt
+      </a>
+    </p>
+  </div>
+
+  <!-- ===== SCRIPT FIREBASE ===== -->
   <script type="module">
-    // Import fungsi dari Firebase SDK
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-database.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
 
-    // Konfigurasi Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyDMDTxeGLICvfY7l8ArS3d2C1rUndkdclM",
       authDomain: "monitoringgasesp32.firebaseapp.com",
+      databaseURL: "https://monitoringgasesp32-default-rtdb.firebaseio.com",
       projectId: "monitoringgasesp32",
       storageBucket: "monitoringgasesp32.firebasestorage.app",
       messagingSenderId: "528368353087",
-      appId: "1:528368353087:web:836514d911ce17f4271d8a",
-      databaseURL: "https://monitoringgasesp32-default-rtdb.firebaseio.com/"
+      appId: "1:528368353087:web:836514d911ce17f4271d8a"
     };
 
-    // Inisialisasi Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    const dbRef = ref(db, 'SensorData');
 
-    // Baca data dari Firebase Realtime Database
-    const dataRef = ref(db, "sensor");
-    onValue(dataRef, (snapshot) => {
+    const ch4Val = document.getElementById('ch4Val');
+    const co2Val = document.getElementById('co2Val');
+    const nh3Val = document.getElementById('nh3Val');
+    const ch4Status = document.getElementById('ch4Status');
+    const co2Status = document.getElementById('co2Status');
+    const nh3Status = document.getElementById('nh3Status');
+
+    onValue(dbRef, (snapshot) => {
       const data = snapshot.val();
-      const container = document.getElementById("dataContainer");
-      if (data) {
-        container.innerHTML = `
-          <p><strong>Konsentrasi Gas:</strong> ${data.konsentrasi ?? '-'} ppm</p>
-          <p><strong>Suhu:</strong> ${data.suhu ?? '-'} °C</p>
-          <p><strong>Kelembapan:</strong> ${data.kelembapan ?? '-'} %</p>
-        `;
-      } else {
-        container.innerHTML = "Belum ada data sensor yang masuk.";
-      }
+      if (!data) return;
+
+      ch4Val.textContent = `${Math.round(data.CH4_ppm)} ppm`;
+      co2Val.textContent = `${Math.round(data.CO2_ppm)} ppm`;
+      nh3Val.textContent = `${Math.round(data.NH3_ppm)} ppm`;
+
+      updateStatus(ch4Status, data.CH4_status);
+      updateStatus(co2Status, data.CO2_status);
+      updateStatus(nh3Status, data.NH3_status);
     });
+
+    function updateStatus(el, status) {
+      el.textContent = status || '—';
+      el.className = 'status';
+      if (status === 'AMAN') el.classList.add('safe');
+      else if (status === 'WASPADA') el.classList.add('warn');
+      else if (status === 'BAHAYA') el.classList.add('danger');
+    }
   </script>
 </body>
 </html>
