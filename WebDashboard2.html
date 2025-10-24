@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard Gas ESP32 — Firebase</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b1220;
+      color: #f1f5f9;
+      padding: 24px;
+    }
+    h1 { margin-bottom: 16px; }
+    .card { background:#1e293b; border-radius:12px; padding:16px; margin-bottom:12px; }
+    .status.safe { color:#22c55e; }
+    .status.warn { color:#facc15; }
+    .status.danger { color:#ef4444; }
+  </style>
+</head>
+<body>
+  <h1>Dashboard Deteksi Gas — Kompos Volt</h1>
+
+  <div class="card">
+    <h2>CH4 (Metana): <span id="ch4Val">— ppm</span></h2>
+    <p>Status: <span id="ch4Status" class="status">—</span></p>
+  </div>
+
+  <div class="card">
+    <h2>CO2: <span id="co2Val">— ppm</span></h2>
+    <p>Status: <span id="co2Status" class="status">—</span></p>
+  </div>
+
+  <div class="card">
+    <h2>NH3 (Amonia): <span id="nh3Val">— ppm</span></h2>
+    <p>Status: <span id="nh3Status" class="status">—</span></p>
+  </div>
+
+  <script type="module">
+    // === Import library dari Firebase CDN ===
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-database.js";
+
+    // === Konfigurasi Firebase Web App ===
+    const firebaseConfig = {
+      apiKey: "AIzaSyDMDTxeGLICvfY7l8ArS3d2C1rUndkdclM",
+      authDomain: "monitoringgasesp32.firebaseapp.com",
+      projectId: "monitoringgasesp32",
+      storageBucket: "monitoringgasesp32.firebasestorage.app",
+      messagingSenderId: "528368353087",
+      appId: "1:528368353087:web:836514d911ce17f4271d8a",
+      databaseURL: "https://monitoringgasesp32-default-rtdb.firebaseio.com"
+    };
+
+    // === Inisialisasi Firebase App & Realtime Database ===
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // === Referensi ke path data dari ESP32 ===
+    const dbRef = ref(db, 'SensorData/');
+
+    // === Elemen tampilan ===
+    const ch4Val = document.getElementById('ch4Val');
+    const co2Val = document.getElementById('co2Val');
+    const nh3Val = document.getElementById('nh3Val');
+    const ch4Status = document.getElementById('ch4Status');
+    const co2Status = document.getElementById('co2Status');
+    const nh3Status = document.getElementById('nh3Status');
+
+    // === Listener realtime (otomatis update saat data Firebase berubah) ===
+    onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        ch4Val.textContent = Math.round(data.CH4_ppm) + ' ppm';
+        co2Val.textContent = Math.round(data.CO2_ppm) + ' ppm';
+        nh3Val.textContent = Math.round(data.NH3_ppm) + ' ppm';
+
+        updateStatus(ch4Status, data.CH4_status);
+        updateStatus(co2Status, data.CO2_status);
+        updateStatus(nh3Status, data.NH3_status);
+      }
+    });
+
+    // === Fungsi bantu warna status ===
+    function updateStatus(el, status) {
+      el.textContent = status;
+      el.className = 'status';
+      if (status === 'AMAN') el.classList.add('safe');
+      else if (status === 'WASPADA') el.classList.add('warn');
+      else el.classList.add('danger');
+    }
+  </script>
+</body>
+</html>
