@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard Gas ESP32 — Firebase</title>
+  <title>Monitoring Gas by KomposVolt</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.css">
   <style>
     body {
@@ -51,8 +51,14 @@
   </style>
 </head>
 
-<body>
-  <h1>Dashboard Deteksi Gas — Kompos Volt</h1>
+
+  <body>
+  <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+    <img src="logo.png" alt="Logo Kompos Volt" width="60" height="60" style="border-radius: 8px;">
+    <h1 style="margin: 0;">Dashboard Deteksi Gas by Kompos Volt</h1>
+  </div>
+
+  
 
   <div class="card">
     <h2>CH₄ (Metana): <span id="ch4Val">— ppm</span></h2>
@@ -127,3 +133,4 @@
   </script>
 </body>
 </html>
+
