@@ -8,8 +8,8 @@
   <style>
     body {
       font-family: 'Inter', system-ui, sans-serif;
-      background: #16a34a;
-      color: #ffffff;
+      background: #16a34a; /* Hijau utama */
+      color: #f1f5f9;
       padding: 24px;
       line-height: 1.5;
       text-align: center;
@@ -24,26 +24,26 @@
     }
 
     .header img {
-      width: 260px;
+      width: 240px;
       height: auto;
       margin-bottom: 12px;
     }
 
     h1 {
-      font-size: 1.75rem;
+      font-size: 1.9rem;
       margin-bottom: 16px;
-      color: #ffffff;
+      color: #fff;
     }
 
     /* ===== KARTU DATA ===== */
     .card {
-      background: #1e293b;
-      border-radius: 12px;
+      background: rgba(30, 41, 59, 0.9);
+      border-radius: 14px;
       padding: 16px;
       margin: 12px auto;
       max-width: 400px;
       text-align: left;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     h2 {
@@ -71,8 +71,8 @@
     .footer {
       margin-top: 40px;
       text-align: center;
-      font-size: 0.95rem;
-      color: #ffffff;
+      font-size: 1rem;
+      color: #e2e8f0;
     }
 
     .footer a {
@@ -81,17 +81,34 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: color 0.2s ease;
+      transition: color 0.3s ease;
     }
 
     .footer a:hover {
-      color: #ffffff;
+      color: #d1fae5;
     }
 
     .footer img {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       vertical-align: middle;
+    }
+
+    /* ===== SUPPORTED BY SECTION ===== */
+    .support {
+      margin-top: 50px;
+      text-align: center;
+    }
+
+    .support h3 {
+      font-size: 1.2rem;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .support img {
+      max-width: 90%;
+      height: auto;
     }
   </style>
 </head>
@@ -99,7 +116,7 @@
 <body>
   <!-- ===== HEADER ===== -->
   <div class="header">
-    <img src="logo.png" alt="Logo KomposVolt">
+    <img src="logo1.png" alt="Logo KomposVolt">
     <h1>Dashboard Monitoring Biogas</h1>
   </div>
 
@@ -119,15 +136,21 @@
     <p>Status: <span id="nh3Status" class="status">—</span></p>
   </div>
 
-  <!-- ===== FOOTER DENGAN INSTAGRAM ===== -->
+  <!-- ===== FOOTER INSTAGRAM ===== -->
   <div class="footer">
     <p>
-      Follow us
+      Follow kami di
       <a href="https://instagram.com/komposvolt" target="_blank">
         <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
         @komposvolt
       </a>
     </p>
+  </div>
+
+  <!-- ===== SUPPORTED BY SECTION ===== -->
+  <div class="support">
+    <h3>Supported by</h3>
+    <img src="logo2.png" alt="Supported by Logos">
   </div>
 
   <!-- ===== SCRIPT FIREBASE ===== -->
@@ -179,8 +202,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
